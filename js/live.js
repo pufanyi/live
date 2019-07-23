@@ -29,12 +29,25 @@ Live=function(element){
 	let head;
 	let gzw;
 	let cl;
+	let pq;
+	let goLeft;
+	let goRight;
 	this.initAct=function(){
 		head={x:150,y:150};
 		cl=false;
 		gzw=new PtImg('img/gzw.jpg');
+		pq=0;
+		goLeft=0;
+		goRight=0;
 	}
 	this.runAct=function(time){
+		pq+=time;
+		if(pq>500){
+			pq=0;
+			if(Math.random()<0.1){
+				cl=!cl;
+			}
+		}
 		if(mouse!=null){
 			if(mouse.x<head.x&&head.x>120){
 				head.x-=time*0.05;
@@ -60,6 +73,26 @@ Live=function(element){
 			if(head.y>160){
 				head.y=160;
 			}
+		}else{
+			if(goLeft>0){
+				goLeft-=time;
+				head.x-=time*0.05;
+				if(head.x<120){
+					head.x=120;
+				}
+			}else if(goRight>0){
+				goRight-=time;
+				head.x+=time*0.05;
+				if(head.x>180){
+					head.x=180;
+				}
+			}else if(Math.random()*500<time){
+				if(Math.random()<0.5){
+					goLeft=Math.random()*1000;
+				}else{
+					goRight=Math.random()*1000;
+				}
+			}
 		}
 	}
 	element.onmousemove=function(event){
@@ -73,6 +106,7 @@ Live=function(element){
 	}
 	element.onclick=function(){
 		cl=!cl;
+		pq=0;
 	}
 	this.paint=function(){
 		let thisPaintTime=new Date().getTime();
