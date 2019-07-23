@@ -28,16 +28,18 @@ Live=function(element){
 	
 	let head;
 	let gzw;
+	let cl;
 	this.initAct=function(){
 		head={x:150,y:150};
+		cl=false;
 		gzw=new PtImg('img/gzw.jpg');
 	}
 	this.runAct=function(time){
 		if(mouse!=null){
-			if(mouse.x<head.x&&head.x>130){
+			if(mouse.x<head.x&&head.x>120){
 				head.x-=time*0.05;
 			}
-			if(mouse.x>head.x&&head.x<170){
+			if(mouse.x>head.x&&head.x<180){
 				head.x+=time*0.05;
 			}
 			if(mouse.y<head.y&&head.y>145){
@@ -46,11 +48,11 @@ Live=function(element){
 			if(mouse.y>head.y&&head.y<160){
 				head.y+=time*0.05;
 			}
-			if(head.x<130){
-				head.x=130;
+			if(head.x<120){
+				head.x=120;
 			}
-			if(head.x>170){
-				head.x=170;
+			if(head.x>180){
+				head.x=180;
 			}
 			if(head.y<145){
 				head.y=145;
@@ -68,6 +70,9 @@ Live=function(element){
 	}
 	element.onmouseleave=function(){
 		mouse=null;
+	}
+	element.onclick=function(){
+		cl=!cl;
 	}
 	this.paint=function(){
 		let thisPaintTime=new Date().getTime();
@@ -95,15 +100,34 @@ Live=function(element){
 			for(let j=0;j<HEIGHT;j++){
 				let sq=(i-head.x)*(i-head.x)+(j-head.y)*(j-head.y);
 				let eev=(head.x-150)*(250-j)*(250-j)/(250-head.y)/(250-head.y)+150;
+				let peev=(head.x-150)*2500/(250-head.y)/(250-head.y)+150;
+				let qevk=200-20*(peev-i)*(peev-i)/(peev-head.x+50)/(peev-head.x+50);
+				let kktt=180-(180-head.y)*(i-100-head.x+150)/28;
 				if(sq>=32*32){
-					if(sq<=35*35){
-						drawPoint(i,j,'black');
-					}else if(i>=eev-2&&i<=eev+2&&j>=head.y&&j<=250){
-						drawPoint(i,j,'black');
-					}else if(j>=198+Math.abs(i-eev)/2&&j<=202+Math.abs(i-eev)/2&&i>=(eev-150)*4+100&&i<=(eev-150)*4+200){
-						drawPoint(i,j,'black');
-					}else if(j>=248+Math.abs(i-150)&&j<=252+Math.abs(i-150)&&i>=100&&i<=200){
-						drawPoint(i,j,'black');
+					if(cl){
+						if(sq<=35*35){
+							drawPoint(i,j,'black');
+						}else if(i>=eev-2&&i<=eev+2&&j>=head.y&&j<=250){
+							drawPoint(i,j,'black');
+						}else if(j>=198+(i-eev)/2&&j<=202+(i-eev)/2&&i>=eev&&i<=(eev-150)*5+200){
+							drawPoint(i,j,'black');
+						}else if(j>=248+Math.abs(i-150)&&j<=252+Math.abs(i-150)&&i>=100&&i<=200){
+							drawPoint(i,j,'black');
+						}else if(Math.abs(j-qevk)<=2&&j>=180&&j<=200&&(i-100-head.x+150)>=0&&i<=peev){
+							drawPoint(i,j,'black');
+						}else if(Math.abs(j-kktt)<=2&&j>=head.y&&j<=180&&(i-100-head.x+150)>=0&&i<=head.x-32){
+							drawPoint(i,j,'black');
+						}
+					}else{
+						if(sq<=35*35){
+							drawPoint(i,j,'black');
+						}else if(i>=eev-2&&i<=eev+2&&j>=head.y&&j<=250){
+							drawPoint(i,j,'black');
+						}else if(j>=198+Math.abs(i-eev)/2&&j<=202+Math.abs(i-eev)/2&&i>=(eev-150)*5+100&&i<=(eev-150)*5+200){
+							drawPoint(i,j,'black');
+						}else if(j>=248+Math.abs(i-150)&&j<=252+Math.abs(i-150)&&i>=100&&i<=200){
+							drawPoint(i,j,'black');
+						}
 					}
 				}else{
 					let v='rgb('+parseInt(180+Math.random()*20)+','+parseInt(180+Math.random()*20)+','+parseInt(180+Math.random()*20)+')';
