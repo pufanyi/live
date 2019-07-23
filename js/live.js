@@ -46,6 +46,18 @@ Live=function(element){
 			if(mouse.y>head.y&&head.y<160){
 				head.y+=time*0.05;
 			}
+			if(head.x<130){
+				head.x=130;
+			}
+			if(head.x>170){
+				head.x=170;
+			}
+			if(head.y<145){
+				head.y=145;
+			}
+			if(head.y>160){
+				head.y=160;
+			}
 		}
 	}
 	element.onmousemove=function(event){
