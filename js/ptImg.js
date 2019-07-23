@@ -28,7 +28,7 @@ PtImg=function(filename){
 		i=parseInt(i);
 		j=parseInt(j);
 		if(i<0||j<0||i>=img.width||j>=img.height)return 'rgba(0,0,0,0)';
-		let v=ctx.getImageData(i,j,1,1);
+		let v=ctx.getImageData(i,j,1,1).data;
 		return 'rgba('+v[0]+','+v[1]+','+v[2]+','+(v[3]/255)+')';
 	}
 }

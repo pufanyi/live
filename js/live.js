@@ -106,7 +106,6 @@ Live=function(element){
 						let ww=gzw.getWidth();
 						let hh=gzw.getHeight();
 						drawPoint(i,j,gzw.getColor((i-head.x+32)/64*ww,(j-head.y+32)/64*hh));
-						console.log(gzw.getColor((i-head.x+32)/64*ww,(j-head.y+32)/64*hh));
 					}
 				}
 			}
