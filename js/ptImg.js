@@ -23,14 +23,14 @@ PtImg=function(filename){
 		return img.height;
 	}
 	this.getColor=function(i,j){
-		if(!loaded)return 'rgba(0,0,0,0)';
+		if(!loaded)return 0;
 		i=parseInt(i);
 		j=parseInt(j);
-		if(i<0||j<0||i>=img.width||j>=img.height)return 'rgba(0,0,0,0)';
+		if(i<0||j<0||i>=img.width||j>=img.height)return 0;
 		let g=i*img.height+j;
 		if(ans[g]!=null)return ans[g];
 		let v=ctx.getImageData(i,j,1,1).data;
-		ans[g]='rgba('+v[0]+','+v[1]+','+v[2]+','+(v[3]/255)+')';
+		ans[g]=((v[0]*256+v[1])*256+v[2])*256+v[3];
 		return ans[g];
 	}
 }

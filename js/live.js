@@ -47,7 +47,11 @@ Live=function(element){
 		ctx.clearRect(0,0,WIDTH,HEIGHT);
 		
 		let drawPoint=function(x,y,color){
+			const recolor=['','0','00','000','0000','00000','000000','0000000','00000000'];
+			if(color==0)return;
 			if(x>=0&&x<WIDTH&&y>=0&&y<HEIGHT){
+				color=color.toString(16);
+				color='#'+recolor[8-color.length]+color;
 				ctx.fillStyle=color;
 				ctx.fillRect(x,y,1,1);
 			}
@@ -57,7 +61,6 @@ Live=function(element){
 				drawPoint(x,y,身.getColor(x,y));
 			}
 		}
-		alert('233');
 		for(let x=0;x<WIDTH;x++){
 			for(let y=0;y<HEIGHT;y++){
 				drawPoint(x,y,头.getColor(x,y));
