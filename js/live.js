@@ -52,7 +52,7 @@ Live=function(element){
 				ctx.fillRect(x,y,1,1);
 			}
 		}
-		for(let x=0;x<WIDTH;x++){
+		/*for(let x=0;x<WIDTH;x++){
 			for(let y=0;y<HEIGHT;y++){
 				drawPoint(x,y,身.getColor(x,y));
 			}
@@ -61,7 +61,12 @@ Live=function(element){
 			for(let y=0;y<HEIGHT;y++){
 				drawPoint(x,y,头.getColor(x,y));
 			}
-		}
+		}*/
+		drawPoint(10,10,'black');
+		drawPoint(10,11,'black');
+		drawPoint(10,12,'black');
+		drawPoint(10,13,'black');
+		drawPoint(10,14,'black');
 		lastPaintTime=thisPaintTime;
 	}
 	this.init();

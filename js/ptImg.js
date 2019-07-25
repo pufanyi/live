@@ -15,6 +15,7 @@ PtImg=function(filename){
 		ctx.clearRect(0,0,canvas.width,canvas.height);
 		ctx.drawImage(img,0,0);
 		loaded=true;
+		alert(filename+' ok!');
 	}
 	this.getWidth=function(){
 		return img.width;
