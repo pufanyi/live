@@ -16,9 +16,6 @@ PtImg=function(filename){
 		ctx.drawImage(img,0,0);
 		loaded=true;
 	}
-	this.isloaded=function(){
-		return loaded;
-	}
 	this.getWidth=function(){
 		return img.width;
 	}
@@ -26,6 +23,7 @@ PtImg=function(filename){
 		return img.height;
 	}
 	this.getColor=function(i,j){
+		if(!loaded)return 'rgba(0,0,0,0)';
 		i=parseInt(i);
 		j=parseInt(j);
 		if(i<0||j<0||i>=img.width||j>=img.height)return 'rgba(0,0,0,0)';
