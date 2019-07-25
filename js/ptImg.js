@@ -6,6 +6,7 @@ PtImg=function(filename){
 	let loaded=false;
 	img=document.createElement('img');
 	img.src=filename;
+	let ans=[];
 	img.onload=function(){
 		canvas=document.createElement('canvas');
 		canvas.width=img.width;
@@ -28,7 +29,10 @@ PtImg=function(filename){
 		i=parseInt(i);
 		j=parseInt(j);
 		if(i<0||j<0||i>=img.width||j>=img.height)return 'rgba(0,0,0,0)';
+		let g=i*img.height+j;
+		if(ans[g]!=null)return ans[g];
 		let v=ctx.getImageData(i,j,1,1).data;
-		return 'rgba('+v[0]+','+v[1]+','+v[2]+','+(v[3]/255)+')';
+		ans[g]='rgba('+v[0]+','+v[1]+','+v[2]+','+(v[3]/255)+')';
+		return ans[g];
 	}
 }
