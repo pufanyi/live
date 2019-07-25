@@ -13,7 +13,7 @@ PtImg=function(filename){
 		canvas.height=img.height;
 		ctx=canvas.getContext('2d');
 		ctx.clearRect(0,0,canvas.width,canvas.height);
-		ctx.drawImage(img,0,0);
+		//ctx.drawImage(img,0,0);
 		loaded=true;
 	}
 	this.getWidth=function(){
@@ -22,6 +22,7 @@ PtImg=function(filename){
 	this.getHeight=function(){
 		return img.height;
 	}
+	let ak=false;
 	this.getColor=function(i,j){
 		if(!loaded)return 0;
 		i=parseInt(i);

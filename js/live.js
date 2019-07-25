@@ -46,9 +46,10 @@ Live=function(element){
 		this.runAct(deltaPaintTime);
 		ctx.clearRect(0,0,WIDTH,HEIGHT);
 		
+		const recolor=['','0','00','000','0000','00000','000000','0000000','00000000'];
 		let drawPoint=function(x,y,color){
-			const recolor=['','0','00','000','0000','00000','000000','0000000','00000000'];
 			if(color==0)return;
+			alert(x,y,color);
 			if(x>=0&&x<WIDTH&&y>=0&&y<HEIGHT){
 				color=color.toString(16);
 				color='#'+recolor[8-color.length]+color;
