@@ -58,14 +58,31 @@ Live=function(element){
 				ctx.fillRect(x,y,1,1);
 			}
 		}
-		for(let x=0;x<WIDTH;x++){
-			for(let y=0;y<HEIGHT;y++){
-				drawPoint(x,y,身.getColor(x,y));
+		if(mouse.x*2>WIDTH){
+			for(let x=0;x<WIDTH;x++){
+				for(let y=0;y<HEIGHT;y++){
+					drawPoint(x,y,身.getColor(WIDTH-x,y));
+				}
 			}
-		}
-		for(let x=0;x<WIDTH;x++){
-			for(let y=0;y<HEIGHT;y++){
-				drawPoint(x,y,头.getColor(x,y));
+			let q=5;
+			for(let x=0;x<WIDTH;x++){
+				for(let y=0;y<HEIGHT;y++){
+					let p=q*Math.pow(y,0.666);
+					drawPoint(x,y,头.getColor(WIDTH-(p+1)/p*x+mouse.x/p,y));
+				}
+			}
+		}else{
+			for(let x=0;x<WIDTH;x++){
+				for(let y=0;y<HEIGHT;y++){
+					drawPoint(x,y,身.getColor(x,y));
+				}
+			}
+			let q=5;
+			for(let x=0;x<WIDTH;x++){
+				for(let y=0;y<HEIGHT;y++){
+					let p=q*Math.pow(y,0.666);
+					drawPoint(x,y,头.getColor((p+1)/p*x-mouse.x/p,y));
+				}
 			}
 		}
 		lastPaintTime=thisPaintTime;

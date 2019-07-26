@@ -30,6 +30,9 @@ PtImg=function(filename){
 		}
 	}
 	this.getColor=function(i,j){
+		i=parseInt(i);
+		j=parseInt(j);
+		if(i<0||i>=img.width||j<0||j>=img.height)return 0;
 		let g=i*img.height+j;
 		if(ans[g]!=null)return ans[g];
 		else return 0;
