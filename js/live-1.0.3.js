@@ -38,7 +38,8 @@ Live=function(element){
 		身.cLoad();
 		头.cLoad();
 		let dis=Math.abs(mouse.x-WIDTH/2);
-		dq+=time*(dis-130)/1000000;
+		if(mouse.x>0&&mouse.y>0)dq+=time/5000;
+		else dq-=time/10000;
 		if(dq>1.2)dq=1.2;
 		if(dq<1)dq=1;
 	}
@@ -57,7 +58,6 @@ Live=function(element){
 		const recolor=['','0','00','000','0000','00000','000000','0000000','00000000'];
 		let drawPoint=function(x,y,color){
 			if(color==0)return;
-			if(mouse.x*2>WIDTH)x=WIDTH-x;
 			if(x>=0&&x<WIDTH&&y>=0&&y<HEIGHT){
 				color=color.toString(16);
 				color='#'+recolor[8-color.length]+color;
@@ -70,7 +70,7 @@ Live=function(element){
 				drawPoint(x,y,身.getColor(x,y));
 			}
 		}
-		let l=110;
+		let l=105;
 		let r=180;
 		let bg=Math.floor(r-(r-l)*dq);
 		for(let x=bg;x<r;x++){
