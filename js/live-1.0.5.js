@@ -82,12 +82,12 @@ Live=function(element){
 				};
 			}
 		}else if(type.状态=='闭眼'){
-			if(type.持续时间<400){
-				type.头混合+=time*(1/400);
+			if(type.持续时间<1000){
+				type.头混合+=time*(1/1000);
 				if(type.头混合>1)type.头混合=1;
-			}else if(type.持续时间<1000){
-			}else if(type.持续时间<1400){
-				type.头混合-=time*(1/400);
+			}else if(type.持续时间<1500){
+			}else if(type.持续时间<2000){
+				type.头混合-=time*(1/500);
 				if(type.头混合<0)type.头混合=0;
 			}else{
 				type={
