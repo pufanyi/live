@@ -20,7 +20,7 @@ PtImg=function(filename){
 		if(ans.length>=img.height*img.width)return;
 		if(imgload){
 			let time=new Date().getTime();
-			while(new Date().getTime()-time<5){
+			while(new Date().getTime()-time<20){
 				let g=ans.length;
 				let y=g%img.height;
 				let x=(g-y)/img.height;
