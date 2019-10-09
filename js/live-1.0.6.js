@@ -41,9 +41,6 @@ Live=function(element){
 		};
 	}
 	this.runAct=function(time){
-		身.cLoad();
-		头.cLoad();
-		闭眼头.cLoad();
 		type.持续时间+=time;
 		if(type.状态=='正常'){
 			if(type.持续时间>300){
