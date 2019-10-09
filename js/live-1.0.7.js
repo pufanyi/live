@@ -30,12 +30,15 @@ Live=function(element){
 	let 头;
 	let 闭眼头;
 	
+	const pc={x:133,y:60,r:65};
 	let type;
 	this.initAct=function(){
 		身=new PtImg(imgBase.身);
 		头=new PtImg(imgBase.头);
 		闭眼头=new PtImg(imgBase.闭眼头);
 		type={
+			x:pc.x,
+			y:pc.y,
 			状态:'正常',
 			持续时间:0
 		};
@@ -45,38 +48,10 @@ Live=function(element){
 		if(type.状态=='正常'){
 			if(type.持续时间>300){
 				if(Math.random()<0.2){
-					type={
-						状态:'闭眼',
-						持续时间:0,
-						头混合:0
-					};
-				}else if(Math.random()<0.15){
-					type={
-						状态:'点头',
-						持续时间:0,
-						头偏移:{
-							x:0,
-							y:0
-						}
-					};
-				}else{
-					type.持续时间=0;
+					type.状态='闭眼';
+					type.头混合=0;
 				}
-			}
-		}else if(type.状态=='点头'){
-			if(type.持续时间<400){
-				type.头偏移.y+=time*(8/400);
-				type.头偏移.x-=time*(3/400);
-			}else if(type.持续时间<1000){
-				type.头偏移.y-=time*(8/600);
-				if(type.头偏移.y<0)type.头偏移.y=0;
-				type.头偏移.x+=time*(3/600);
-				if(type.头偏移.x>0)type.头偏移.x=0;
-			}else{
-				type={
-					状态:'正常',
-					持续时间:0
-				};
+				type.持续时间=0;
 			}
 		}else if(type.状态=='闭眼'){
 			if(type.持续时间<1000){
@@ -87,12 +62,17 @@ Live=function(element){
 				type.头混合-=time*(1/500);
 				if(type.头混合<0)type.头混合=0;
 			}else{
-				type={
-					状态:'正常',
-					持续时间:0
-				};
+				type.状态='正常';
+				type.持续时间=0;
 			}
 		}
+		let dis=function(x1,y1,x2,y2){
+			return Math.sqrt((x1-x2)*(x1-x2)+(y1-y2)*(y1-y2));
+		}
+		let k=dis(mouse.x,mouse.y,pc.x,pc.y);
+		if(k!=0)k=5/k;
+		type.x+=time/300*((mouse.x-pc.x)*k+pc.x-type.x);
+		type.y+=time/300*((mouse.y-pc.y)*k+pc.y-type.y);
 	}
 	$(window).mousemove(function(event){
 		mouse={
@@ -117,6 +97,26 @@ Live=function(element){
 				ctx.fillRect(x,y,1,1);
 			}
 		}
+		let dis=function(x1,y1,x2,y2){
+			return Math.sqrt((x1-x2)*(x1-x2)+(y1-y2)*(y1-y2));
+		}
+		let et=function(x,y){
+			if(x==type.x&&y==type.y){
+				return {x:pc.x,y:pc.y};
+			}
+			let l=1e-6,r=400;
+			x-=type.x;
+			y-=type.y;
+			while(Math.abs(r-l)>1e-6){
+				let mid=(l+r)/2;
+				if(dis(x*mid+type.x,y*mid+type.y,pc.x,pc.y)<=pc.r){
+					l=mid;
+				}else{
+					r=mid;
+				}
+			}
+			return {x:pc.x+x+(type.x-pc.x)/l,y:pc.y+y+(type.y-pc.y)/l};
+		}
 		let mix=function(cola,colb,mxb){
 			if(cola==colb)return cola;
 			let va=[];
@@ -139,31 +139,18 @@ Live=function(element){
 		}
 		for(let x=0;x<WIDTH;x++){
 			for(let y=0;y<HEIGHT;y++){
-				let dx=Math.abs(mouse.x-x);
-				let dy=Math.abs(mouse.y-y);
-				let vv=Math.max(0,0.5-Math.sqrt(dx*dx+dy*dy)/200);
 				let color=身.getColor(x,y);
-				if(color!=0){
-					color=mix(color,255,vv);
-				}
 				drawPoint(x,y,color);
 			}
 		}
 		for(let x=0;x<WIDTH;x++){
 			for(let y=0;y<HEIGHT;y++){
-				let dx=Math.abs(mouse.x-x);
-				let dy=Math.abs(mouse.y-y);
-				let vv=Math.max(0,0.5-Math.sqrt(dx*dx+dy*dy)/200);
+				let v=et(x,y);
 				let color;
-				if(type.状态=='点头'){
-					color=头.getColor(x-type.头偏移.x,y-type.头偏移.y);
-				}else if(type.状态=='闭眼'){
-					color=mix(头.getColor(x,y),闭眼头.getColor(x,y),type.头混合);
+				if(type.状态=='闭眼'){
+					color=mix(头.getColor(v.x,v.y),闭眼头.getColor(v.x,v.y),type.头混合);
 				}else{
-					color=头.getColor(x,y);
-				}
-				if(color!=0){
-					color=mix(color,255,vv);
+					color=头.getColor(v.x,v.y);
 				}
 				drawPoint(x,y,color);
 			}

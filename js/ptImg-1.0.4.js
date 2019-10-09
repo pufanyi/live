@@ -23,9 +23,37 @@ PtImg=function(filename){
 		}
 	}
 	this.getColor=function(x,y){
-		x=parseInt(x);
-		y=parseInt(y);
-		if(ans[x]!=null&&ans[x][y]!=null)return ans[x][y];
-		return 0;
+		let getVC=function(x,y){
+			if(ans[x]!=null&&ans[x][y]!=null)return ans[x][y];
+			return 0;
+		}
+		let mix=function(cola,colb,mxb){
+			if(cola==colb)return cola;
+			let va=[];
+			for(let i=0;i<4;i++){
+				va.push(cola%256);
+				cola-=cola%256;
+				cola/=256;
+			}
+			let vb=[];
+			for(let i=0;i<4;i++){
+				vb.push(colb%256);
+				colb-=colb%256;
+				colb/=256;
+			}
+			let ans=0;
+			for(let i=3;i>=0;i--){
+				ans=ans*256+Math.round(va[i]*(1-mxb)+vb[i]*mxb);
+			}
+			return ans;
+		}
+		let lx=parseInt(x);
+		let ly=parseInt(y);
+		x-=lx;
+		y-=ly;
+		let v1=mix(getVC(lx,ly),getVC(lx+1,ly),x);
+		ly++;
+		let v2=mix(getVC(lx,ly),getVC(lx+1,ly),x);
+		return mix(v1,v2,y);
 	}
 }
