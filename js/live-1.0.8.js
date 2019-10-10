@@ -66,6 +66,7 @@ Live=function(element){
 				type.持续时间=0;
 			}
 		}
+		time=Math.min(time,200);
 		let dis=function(x1,y1,x2,y2){
 			return Math.sqrt((x1-x2)*(x1-x2)+(y1-y2)*(y1-y2));
 		}
@@ -104,6 +105,7 @@ Live=function(element){
 			if(x==type.x&&y==type.y){
 				return {x:pc.x,y:pc.y};
 			}
+			if(dis(x,y,type.x,type.y)>2*pc.r)return {x:x,y:y};
 			let l=1e-6,r=400;
 			x-=type.x;
 			y-=type.y;
@@ -116,6 +118,17 @@ Live=function(element){
 				}
 			}
 			return {x:pc.x+x+(type.x-pc.x)/l,y:pc.y+y+(type.y-pc.y)/l};
+		}
+		let qt=function(x,y){
+			let e=140;
+			let u=(type.x-e)/2+e;
+			if(x==u){
+				return {x:x,y:y};
+			}else if(x<u){
+				return {x:x/u*e,y:y};
+			}else{
+				return {x:WIDTH-(WIDTH-x)/(WIDTH-u)*(WIDTH-e),y:y};
+			}
 		}
 		let mix=function(cola,colb,mxb){
 			if(cola==colb)return cola;
@@ -139,7 +152,8 @@ Live=function(element){
 		}
 		for(let x=0;x<WIDTH;x++){
 			for(let y=0;y<HEIGHT;y++){
-				let color=身.getColor(x,y);
+				let v=qt(x,y);
+				let color=身.getColor(v.x,v.y);
 				drawPoint(x,y,color);
 			}
 		}
