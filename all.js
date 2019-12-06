@@ -9,7 +9,7 @@ let PtImg;
 PtImg=function(filename){
 	let img=new Image();
 	img.src=filename;
-	let ans=[];
+	let ans;
 	let imgload=false;
 	img.onload=function(){
 		imgload=true;
@@ -19,19 +19,23 @@ PtImg=function(filename){
 		let ctx=canvas.getContext('2d');
 		ctx.clearRect(0,0,canvas.width,canvas.height);
 		ctx.drawImage(img,0,0);
-		ans=ctx.getImageData(0,0,img.width,img.height).data;
+		let tot=ctx.getImageData(0,0,img.width,img.height).data;
+		ans=[];
+		for(let x=0;x<img.width;x++){
+			ans[x]=[];
+			for(let y=0;y<img.height;y++){
+				let vp=(y*img.width+x)*4;
+				ans[x][y]={r:tot[vp],g:tot[vp+1],b:tot[vp+2],a:tot[vp+3]}
+			}
+		}
 	}
 	this.getColor=function(x,y){
-		let getVC=function(x,y){
-			if(!imgload||x<0||x>=img.width||y<0||y>=img.height){
-				return {r:0,g:0,b:0,a:0};
-			}
-			let vp=(y*img.width+x)*4;
-			return {r:ans[vp],g:ans[vp+1],b:ans[vp+2],a:ans[vp+3]};
+		let lx=Math.floor(x+0.5);
+		let ly=Math.floor(y+0.5);
+		if(!imgload||lx<0||lx>=img.width||ly<0||ly>=img.height){
+			return {r:0,g:0,b:0,a:0};
 		}
-		let lx=parseInt(x+0.5);
-		let ly=parseInt(y+0.5);
-		return getVC(lx,ly);
+		return ans[lx][ly];
 	}
 }
 let Live;
@@ -108,8 +112,8 @@ Live=function(element){
 		}
 		let k=dis(mouse.x,mouse.y,pc.x,pc.y);
 		if(k!=0)k=5/k;
-		type.x+=time/300*((mouse.x-pc.x)*k+pc.x-type.x);
-		type.y+=time/300*((mouse.y-pc.y)*k+pc.y-type.y);
+		type.x+=time/250*((mouse.x-pc.x)*k+pc.x-type.x);
+		type.y+=time/250*((mouse.y-pc.y)*k+pc.y-type.y);
 	}
 	window.onmousemove=function(event){
 		mouse={
@@ -124,7 +128,7 @@ Live=function(element){
 		this.runAct(deltaPaintTime);
 		let gro=ctx.createImageData(WIDTH,HEIGHT);
 		let drawPoint=function(x,y,color){
-			if(color.a<200)return;
+			if(color.a<170)return;
 			if(x>=0&&x<WIDTH&&y>=0&&y<HEIGHT){
 				let vp=(y*WIDTH+x)*4;
 				gro.data[vp]=color.r;
@@ -203,6 +207,6 @@ Live=function(element){
 let live=new Live(document.getElementById('live'));
 (function anim(){
 	live.paint();
-	setTimeout(anim,50);
+	setTimeout(anim,20);
 })();
 })();
