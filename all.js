@@ -128,13 +128,13 @@ Live=function(element){
 		this.runAct(deltaPaintTime);
 		let gro=ctx.createImageData(WIDTH,HEIGHT);
 		let drawPoint=function(x,y,color){
-			if(color.a<170)return;
 			if(x>=0&&x<WIDTH&&y>=0&&y<HEIGHT){
+				let d=color.a/255;
 				let vp=(y*WIDTH+x)*4;
-				gro.data[vp]=color.r;
-				gro.data[vp+1]=color.g;
-				gro.data[vp+2]=color.b;
-				gro.data[vp+3]=color.a;
+				gro.data[vp+0]=(gro.data[vp+0])*(1-d)+color.r*d;
+				gro.data[vp+1]=(gro.data[vp+1])*(1-d)+color.g*d;
+				gro.data[vp+2]=(gro.data[vp+2])*(1-d)+color.b*d;
+				gro.data[vp+3]=255-(255-gro.data[vp+3])*(1-d);
 			}
 		}
 		let dis=function(x1,y1,x2,y2){
