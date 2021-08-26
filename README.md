@@ -4,7 +4,7 @@
 
 ```html
 <div id='live'>
-    <script src='https://pufanyi.github.io/live/main.js'></script>
+    <script src='https://cdn.jsdelivr.net/gh/pufanyi/live/main.js'></script>
 </div>
 ```
 
